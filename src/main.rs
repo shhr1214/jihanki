@@ -1,24 +1,31 @@
+use std::collections::HashMap;
+
 #[derive(Debug, PartialEq)]
 struct VendingMachine {
-    stocks: Vec<Stock>,
+    stocks: HashMap<String, Stock>,
 }
 
 #[derive(Debug, PartialEq)]
 struct VendingMachineBuilder {
-    stocks: Vec<Stock>,
+    stocks: HashMap<String, Stock>,
 }
 
 impl VendingMachineBuilder {
     fn new() -> Self {
-        Self { stocks: Vec::new() }
+        Self {
+            stocks: HashMap::new(),
+        }
     }
 
     fn add(mut self, drink: Drink, price: usize, num: usize) -> Self {
-        self.stocks.push(Stock {
-            drink_name: drink.name,
-            price: price,
-            num: num,
-        });
+        self.stocks.insert(
+            drink.name.clone(),
+            Stock {
+                drink_name: drink.name,
+                price: price,
+                num: num,
+            },
+        );
         self
     }
 
@@ -63,27 +70,32 @@ mod tests {
             .add(Drink::new("コーヒー".into()), 120, 10)
             .build();
 
-        assert_eq!(
-            vending_machine,
-            VendingMachine {
-                stocks: vec![
-                    Stock {
-                        drink_name: "コーラ".into(),
-                        price: 120,
-                        num: 10,
-                    },
-                    Stock {
-                        drink_name: "カルピス".into(),
-                        price: 120,
-                        num: 10,
-                    },
-                    Stock {
-                        drink_name: "コーヒー".into(),
-                        price: 120,
-                        num: 10,
-                    },
-                ]
-            }
+        let mut stocks = HashMap::new();
+        stocks.insert(
+            "コーラ".into(),
+            Stock {
+                drink_name: "コーラ".into(),
+                price: 120,
+                num: 10,
+            },
         );
+        stocks.insert(
+            "カルピス".into(),
+            Stock {
+                drink_name: "カルピス".into(),
+                price: 120,
+                num: 10,
+            },
+        );
+        stocks.insert(
+            "コーヒー".into(),
+            Stock {
+                drink_name: "コーヒー".into(),
+                price: 120,
+                num: 10,
+            },
+        );
+
+        assert_eq!(vending_machine, VendingMachine { stocks: stocks });
     }
 }
