@@ -2,10 +2,33 @@ struct VendingMachine {
     stocks: Vec<Stock>,
 }
 
+struct VendingMachineBuilder {
+    stocks: Vec<Stock>,
+}
+
+impl VendingMachineBuilder {
+    fn new() -> Self {
+        Self { stocks: Vec::new() }
+    }
+
+    fn add(&mut self, drink: Drink, price: usize, num: usize) -> Self {
+        self.stocks.push(Stock {
+            drink_name: drink.name,
+            price: price,
+            num: num,
+        })
+    }
+
+    fn build(&self) -> VendingMachine {
+        VendingMachine {
+            stocks: self.stocks,
+        }
+    }
+}
+
 struct Stock {
     drink_name: String,
     price: usize,
-    drinks: Vec<Drink>,
     num: usize,
 }
 
@@ -35,17 +58,14 @@ mod tests {
                 stocks: vec![Stock {
                     drink_name: "コーラ".into(),
                     price: 120,
-                    drinks: vec![Drink::new("コーラ")],
                     num: 10,
                 }, Stock {
                     drink_name: "カルピス".into(),
                     price: 120,
-                    drinks: vec![Drink::new("カルピス")],
                     num: 10,
                 }, Stock {
                     drink_name: "コーヒー".into(),
                     price: 120,
-                    drinks: vec![Drink::new("コーヒー")],
                     num: 10,
                 }].
             }
