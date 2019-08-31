@@ -1,7 +1,9 @@
+#[derive(Debug)]
 struct VendingMachine {
     stocks: Vec<Stock>,
 }
 
+#[derive(Debug)]
 struct VendingMachineBuilder {
     stocks: Vec<Stock>,
 }
@@ -26,12 +28,14 @@ impl VendingMachineBuilder {
     }
 }
 
+#[derive(Debug)]
 struct Stock {
     drink_name: String,
     price: usize,
     num: usize,
 }
 
+#[derive(Debug)]
 struct Drink {
     name: String,
 }
