@@ -5,6 +5,22 @@ struct VendingMachine {
     stocks: HashMap<String, Stock>,
 }
 
+impl VendingMachine {
+    fn sell(&mut self, drink_name: String, money: usize) -> Result<Drink, String> {
+        let stock = match self.stocks.get_mut(&drink_name) {
+            Some(stock) => stock,
+            None => return Err("そんな銘柄ない".into()),
+        };
+
+        if money < stock.price {
+            return Err("金額がたりない".into());
+        }
+
+        let drink = stock.get()?;
+        Ok(drink)
+    }
+}
+
 #[derive(Debug, PartialEq)]
 struct VendingMachineBuilder {
     stocks: HashMap<String, Stock>,
@@ -41,6 +57,18 @@ struct Stock {
     drink_name: String,
     price: usize,
     num: usize,
+}
+
+impl Stock {
+    fn get(&mut self) -> Result<Drink, String> {
+        if self.num <= 0 {
+            return Err("在庫ないって".into());
+        }
+
+        self.num -= 1;
+
+        Ok(Drink::new(self.drink_name.clone()))
+    }
 }
 
 #[derive(Debug, PartialEq)]
