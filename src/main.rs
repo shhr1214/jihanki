@@ -36,6 +36,12 @@ struct Drink {
     name: String,
 }
 
+impl Drink {
+    fn new(name: String) -> Self {
+        Self { name: name }
+    }
+}
+
 fn main() {
     println!("Hello, world!");
 }
