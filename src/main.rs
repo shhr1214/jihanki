@@ -13,12 +13,13 @@ impl VendingMachineBuilder {
         Self { stocks: Vec::new() }
     }
 
-    fn add(&mut self, drink: Drink, price: usize, num: usize) -> Self {
+    fn add(&mut self, drink: Drink, price: usize, num: usize) -> &Self {
         self.stocks.push(Stock {
             drink_name: drink.name,
             price: price,
             num: num,
-        })
+        });
+        self
     }
 
     fn build(&self) -> VendingMachine {
