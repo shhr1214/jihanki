@@ -1,9 +1,9 @@
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 struct VendingMachine {
     stocks: Vec<Stock>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 struct VendingMachineBuilder {
     stocks: Vec<Stock>,
 }
@@ -13,7 +13,7 @@ impl VendingMachineBuilder {
         Self { stocks: Vec::new() }
     }
 
-    fn add(&mut self, drink: Drink, price: usize, num: usize) -> &Self {
+    fn add(mut self, drink: Drink, price: usize, num: usize) -> Self {
         self.stocks.push(Stock {
             drink_name: drink.name,
             price: price,
@@ -22,21 +22,21 @@ impl VendingMachineBuilder {
         self
     }
 
-    fn build(&self) -> VendingMachine {
+    fn build(self) -> VendingMachine {
         VendingMachine {
-            stocks: self.stocks,
+            stocks: self.stocks.clone(),
         }
     }
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug, PartialEq)]
 struct Stock {
     drink_name: String,
     price: usize,
     num: usize,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 struct Drink {
     name: String,
 }
@@ -66,19 +66,23 @@ mod tests {
         assert_eq!(
             vending_machine,
             VendingMachine {
-                stocks: vec![Stock {
-                    drink_name: "コーラ".into(),
-                    price: 120,
-                    num: 10,
-                }, Stock {
-                    drink_name: "カルピス".into(),
-                    price: 120,
-                    num: 10,
-                }, Stock {
-                    drink_name: "コーヒー".into(),
-                    price: 120,
-                    num: 10,
-                }].
+                stocks: vec![
+                    Stock {
+                        drink_name: "コーラ".into(),
+                        price: 120,
+                        num: 10,
+                    },
+                    Stock {
+                        drink_name: "カルピス".into(),
+                        price: 120,
+                        num: 10,
+                    },
+                    Stock {
+                        drink_name: "コーヒー".into(),
+                        price: 120,
+                        num: 10,
+                    },
+                ]
             }
         );
     }
